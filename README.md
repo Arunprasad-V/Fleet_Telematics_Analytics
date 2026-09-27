@@ -132,3 +132,80 @@ Arunprasad V — Data Analyst | Python, SQL, Tableau
 LinkedIn - www.linkedin.com/in/arunprasad-v-224a2624b
 GitHub - https://github.com/Arunprasad-V
 Email - arunprasadv2003@gmail.com
+
+flowchart TB
+    subgraph SRC["1. DATA SOURCES"]
+        A1[GPS Pings<br/>lat/long, speed, timestamp]
+        A2[Vehicle Sensors<br/>RPM, fuel, harsh events]
+        A3[Trip Logs<br/>start/end, driver, duration]
+        A4[Maintenance Records]
+    end
+
+    subgraph ING["2. DATA INGESTION"]
+        B1[Python: data_generation.py<br/>Faker + NumPy<br/>fleet activity of 90 days]
+    end
+
+    subgraph STG["3. STORAGE - MySQL"]
+        C1[(Raw CSVs)]
+        C2[(MySQL Database<br/>vehicle_telematics)]
+        C3["Tables: vehicles, drivers,<br/>trips, sensor_events,<br/>maintenance_logs"]
+    end
+
+    subgraph CLEAN["4. DATA CLEANING"]
+        D1[SQL: remove duplicates,<br/>outlier speeds, invalid trips]
+        D2[Python: impute missing fuel values<br/>per-vehicle average efficiency]
+        D3[Cascade cleanup: remove<br/>orphaned sensor_events]
+        D4[Re-verification script:<br/>for_cleaning.py]
+    end
+
+    subgraph FEAT["5. CALCULATION"]
+        E1[Trip-level: duration, avg speed,<br/>fuel efficiency, idle %]
+        E2[Driver-level aggregation:<br/>harsh events per 100km, avg idle %]
+        E3[Vehicle-level aggregation:<br/>efficiency, idle %, harsh events]
+    end
+
+    subgraph ANA["6. ANALYTICS"]
+        F1[Driver Risk Scoring<br/>weighted: 50% harsh events,<br/>30% idle %, 20% efficiency]
+        F2[Maintenance Alert Logic<br/>Overdue / Due Soon / OK<br/>based on days since service]
+    end
+
+    subgraph VIZ["7. VISUALIZATION - Tableau"]
+        G1[Driver Risk Leaderboard]
+        G2[Fuel Efficiency by Vehicle]
+        G3[Idle Time % by Vehicle]
+        G4[Harsh Events vs Distance]
+        G5[Maintenance Alerts]
+    end
+
+    subgraph OUT["8. BUSINESS OUTCOME"]
+        H1[Driver Coaching Targets]
+        H2[Fuel Cost Savings]
+        H3[Maintenance Scheduling]
+    end
+
+    A1 --> B1
+    A2 --> B1
+    A3 --> B1
+    A4 --> B1
+    B1 --> C1
+    C1 --> C2
+    C2 --> C3
+    C3 --> D1
+    D1 --> D2
+    D2 --> D3
+    D3 --> D4
+    D4 --> E1
+    E1 --> E2
+    E1 --> E3
+    E2 --> F1
+    E3 --> F2
+    F1 --> G1
+    F1 --> G4
+    E3 --> G2
+    E3 --> G3
+    F2 --> G5
+    G1 --> H1
+    G4 --> H1
+    G2 --> H2
+    G3 --> H2
+    G5 --> H3
