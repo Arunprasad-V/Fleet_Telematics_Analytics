@@ -123,7 +123,7 @@ Built in Tableau, connected directly to MySQL. Five views:
 - `data_loader.py` — loads CSVs into MySQL with schema creation
 - `manipulation.py` — feature engineering, driver/vehicle aggregation, risk scoring
 - `for_cleaning.py` — final data quality audit script
-- `telematics_architecture.mermaid` — architecture diagram
+- `Telematics_Architecture.png` — architecture diagram
 - `README.md` — this file
 - `Fleet Telematics Analytics (Driver Risk & Fuel Cost Dashboard).twbx` file
 
